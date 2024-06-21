@@ -1,4 +1,7 @@
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt#
+import numpy as np
 
 # Reading in the training set
 ts_df=pd.read_csv('training set.csv')
@@ -51,3 +54,24 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
         iteration += 1
 
     return(w, b)
+
+# Running model to find optimal w and b
+w,b = gradient_descent(ts_df, 'x', 'y', 0, 0, 0.01, 1e-6, 1000)
+
+
+# Creating straight line x and y coordinates using w and b
+x_values = np.linspace(min(ts_df['x']), max(ts_df['x']), 100)
+y_values = w * x_values + b
+
+# Plotting the training set and line together
+plt.figure()
+plt.plot(x_values, 
+         y_values, 
+         color='red', 
+         label=f'y = {w}x + {b}'
+)
+sns.scatterplot(x='x',
+                y='y', 
+                data=ts_df
+)
+plt.show()
