@@ -46,4 +46,4 @@ def gradient_descent(df,
 
 list=['Feature_1', 'Feature_2', 'Feature_3']
 w_1 = np.array([0, 0, 0])
-gradient_descent(ts_df, list, 'Target', w_1, 0, 0.001, 1e-6, 10000)
+gradient_descent(ts_df, list, 'Target', w_1, 0, 0.001, 1e-6, 100000)
