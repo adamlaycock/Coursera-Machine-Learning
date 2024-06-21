@@ -24,7 +24,8 @@ def gradient_descent(df,
     def compute_gradients(w_array, b):
         predictions = y_predictions(x_array, w_array, b)
         errors = predictions - y_array
-        w_gradient = np.dot(errors, x_array).mean(axis=0)
+        w_gradient = np.dot(errors, x_array)
+        w_gradient.mean(axis=0)      # Issue was likely on lines 27 & 28.
         b_gradient = errors.mean()
         return w_gradient, b_gradient
     
