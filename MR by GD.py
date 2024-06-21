@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Reading in training set
 ts_df=pd.read_csv('mr_gd training set.csv')
@@ -43,5 +45,5 @@ def gradient_descent(df,
 
 
 list=['Feature_1', 'Feature_2', 'Feature_3']
-w = np.array([0, 0, 0])
-gradient_descent(ts_df, list, 'Target', w, 0, 0.001, 1e-6, 10000)
+w_1 = np.array([0, 0, 0])
+gradient_descent(ts_df, list, 'Target', w_1, 0, 0.001, 1e-6, 10000)
