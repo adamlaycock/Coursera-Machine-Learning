@@ -22,7 +22,7 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
         r_p (float): Regularisation parameter.
     
     Returns:
-        (float, float): The optimized values of w and b.
+        (float, float): The optimised values of w and b.
     """
     
     def y_prediction(x_input, w, b):

@@ -26,7 +26,7 @@ def gradient_descent(
         r_p (float): Regularisation parameter.
     
     Returns:
-        (numpy.ndarray, float): The optimized values of the w array and b.
+        (numpy.ndarray, float): The optimised values of the w array and b.
     """
 
     def mean_normalisation(feature_column_list):
