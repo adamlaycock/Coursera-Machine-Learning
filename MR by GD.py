@@ -11,6 +11,22 @@ def gradient_descent(
         w_array, b, learning_rate, 
         tolerance, max_iterations
 ):
+    """
+    Performs gradient descent to find the optimal values of the w array and b.
+    
+    Parameters:
+        df (pd.DataFrame): DataFrame containing the input and target variables.
+        feature_column_list (list): List of feature column names in the dataframe.
+        target_column (str): Name of the target variable column.
+        w_array (numpy.ndarray): Initial weights in the form of a one dimensional NumpPy array.
+        b (float): Initial bias.
+        learning_rate (float): Learning rate for gradient descent.
+        tolerance (float): Tolerance for stopping criteria.
+        max_iterations (int): Maximum number of iterations.
+    
+    Returns:
+        (float, float): The optimized values of w and b.
+    """
 
     def mean_normalisation(feature_column_list):
         # Scales each feature in the feature list and replaces columns
@@ -61,6 +77,8 @@ def gradient_descent(
 # Example input arguments
 list=['Feature_1', 'Feature_2', 'Feature_3']
 w_1 = np.array([0, 0, 0])
+
+print(w_1.shape)
 
 # Running the model to find optimum w values for each feature and the value of b
 gradient_descent(ts_df, list, 'Target', w_1, 0, 0.01, 1e-10, 10000)
