@@ -19,6 +19,7 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
         learning_rate (float): Learning rate for gradient descent.
         tolerance (float): Tolerance for stopping criteria.
         max_iterations (int): Maximum number of iterations.
+        r_p (float): Regularisation parameter.
     
     Returns:
         (float, float): The optimized values of w and b.
@@ -39,7 +40,7 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
     iteration = 0
     while iteration <= max_iterations:
         # Calculates cost gradients for current w and b
-        w_gradient, b_gradient = compute_gradients(df, w, b)
+        w_gradient, b_gradient = compute_gradients(df, w, b, r_p)
 
         # Updates w and b using calculated gradients
         w_new = w - learning_rate * w_gradient
@@ -56,7 +57,7 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
     return(w, b)
 
 # Running model to find optimal w and b
-w,b = gradient_descent(ts_df, 'x', 'y', 0, 0, 0.01, 1e-6, 1000)
+w,b = gradient_descent(ts_df, 'x', 'y', 0, 0, 0.01, 1e-6, 1000, 0.005)
 
 
 # Creating straight line x and y coordinates using w and b
