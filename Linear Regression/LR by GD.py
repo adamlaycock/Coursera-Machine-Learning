@@ -6,7 +6,7 @@ import numpy as np
 # Reading in the training set
 ts_df=pd.read_csv('training set.csv')
 
-def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, max_iterations):
+def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, max_iterations, r_p):
     """
     Performs gradient descent to find the optimal values of w and b.
     
@@ -28,11 +28,11 @@ def gradient_descent(df, input_var, target_var, w, b, learning_rate, tolerance, 
         # Predicts a target value based on current w and b
         return w * x_input + b
     
-    def compute_gradients(df, w, b):
+    def compute_gradients(df, w, b, r_p):
         # Calculates gradient of cost function with respect to w and b
         y_pred = y_prediction(df[input_var], w, b)
         errors = y_pred - df[target_var]
-        w_gradient = (errors * df[input_var]).mean()
+        w_gradient = (errors * df[input_var]).mean() + r_p / len(df) * w
         b_gradient = errors.mean()
         return w_gradient, b_gradient
     
