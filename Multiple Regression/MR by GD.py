@@ -9,7 +9,7 @@ ts_df=pd.read_csv('mr_gd training set.csv')
 def gradient_descent(
         df, feature_column_list, target_column, 
         w_array, b, learning_rate, 
-        tolerance, max_iterations
+        tolerance, max_iterations, r_p
 ):
     """
     Performs gradient descent to find the optimal values of the w array and b.
@@ -23,6 +23,7 @@ def gradient_descent(
         learning_rate (float): Learning rate for gradient descent.
         tolerance (float): Tolerance for stopping criteria.
         max_iterations (int): Maximum number of iterations.
+        r_p (float): Regularisation parameter.
     
     Returns:
         (float, float): The optimized values of w and b.
@@ -45,19 +46,19 @@ def gradient_descent(
         # Computes the value of the target predictions for each feature
         return np.dot(x_array, w_array) + b
     
-    def compute_gradients(w_array, b):
+    def compute_gradients(w_array, b, r_p):
         # Calculates the cost function gradient with respect to the weight array and b
         predictions = y_predictions(x_array, w_array, b)
         errors = predictions - y_array
-        w_gradient = np.dot(errors, x_array)
-        w_gradient.mean(axis=0)
+        w_gradient = np.dot(errors, x_array) / len(x_array)
+        w_gradient += r_p / len(x_array) * w_array
         b_gradient = errors.mean()
         return w_gradient, b_gradient
     
     iteration = 0
     while iteration < max_iterations:
         # Calculates the cost gradients for the current weight array and b values.
-        w_gradient, b_gradient = compute_gradients(w_array, b)
+        w_gradient, b_gradient = compute_gradients(w_array, b, r_p)
 
         # Updates the weight array and b value using calculated gradients.
         w_array_new = w_array - learning_rate * w_gradient
@@ -78,7 +79,5 @@ def gradient_descent(
 list=['Feature_1', 'Feature_2', 'Feature_3']
 w_1 = np.array([0, 0, 0])
 
-print(w_1.shape)
-
 # Running the model to find optimum w values for each feature and the value of b
-gradient_descent(ts_df, list, 'Target', w_1, 0, 0.01, 1e-10, 10000)
+gradient_descent(ts_df, list, 'Target', w_1, 0, 0.01, 1e-10, 10000, 0.005)
