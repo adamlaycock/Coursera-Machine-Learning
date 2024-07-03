@@ -1,17 +1,16 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 import math
 from scipy.special import expit
 
-# Reading in the training set
+# Reading in the training set and saving a copy for later normalisation
 ts_df = pd.read_csv('logistic_regression_training_set.csv')
+ts_df_to_norm = pd.read_csv('logistic_regression_training_set.csv')
 
 def gradient_descent(
         df, feature_column_list, target_column, 
         w_array, b, learning_rate, 
-        tolerance, max_iterations
+        tolerance, max_iterations, r_p
 ):
 
     def y_prediction(x_array, w_array, b):
@@ -30,19 +29,19 @@ def gradient_descent(
     x_array = df[feature_column_list].values
     y_array = df[target_column].values
 
-    def compute_gradients(w_array, b):
+    def compute_gradients(w_array, b, r_p):
         # Calculates the cost function gradient with respect to the weight array and b
         predictions = y_prediction(x_array, w_array, b)
         errors = predictions - y_array
         w_gradient = np.dot(errors, x_array) / len(x_array)
-        # w_gradient += r_p / len(x_array) * w_array
+        w_gradient += r_p / len(x_array) * w_array
         b_gradient = errors.mean()
         return w_gradient, b_gradient
     
     iteration = 0
     while iteration < max_iterations:
         # Calculates the cost gradients for the current weight array and b values.
-        w_gradient, b_gradient = compute_gradients(w_array, b)
+        w_gradient, b_gradient = compute_gradients(w_array, b, r_p)
 
         # Updates the weight array and b value using calculated gradients.
         w_array_new = w_array - learning_rate * w_gradient
@@ -59,12 +58,23 @@ def gradient_descent(
 
     return(w_array, b)
 
-
 lst = ['Age', 'Income', 'Education Level', 'Years of Experience', 'Has Mortgage']
 w = np.array([0, 0, 0, 0, 0])
 
-weights, bias = gradient_descent(ts_df, lst, 'Outcome', w, 0, 0.01, 1e-10, 10000)
+weights, bias = gradient_descent(ts_df, lst, 'Outcome', w, 0, 0.01, 1e-10, 100000, 0.0005)
 
-def new_example(x_array, weights, bias):
-        prob = expit(np.dot(x_array, weights) + bias)
-        return np.where(prob >= 0.5, 1, 0)
+
+
+def new_example_prediction(x_list, w_array, b, df):
+    means = df.iloc[:, :-1].mean()
+    ranges = df.iloc[:, :-1].max() - df.iloc[:, :-1].min()
+
+    x_array = (x_list - means) / ranges
+
+    prob = expit(np.dot(x_array, w_array) + b)
+
+    return np.where(prob >= 0.5, 1, 0)
+
+# Example usage
+x_list = [26,90000,6,2,1]
+new_example_prediction(x_list, weights, bias, ts_df_to_norm)
