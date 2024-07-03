@@ -36,10 +36,17 @@ def gradient_descent(
         return np.where(prob >= 0.5, 1, 0)
     
     def mean_normalisation(feature_column_list):
-        # Scales each feature in the feature list and replaces columns
+        """
+        Scales each feature in the feature list using mean normalisation and modifies the original DataFrame in place.
+    
+        Parameters:
+            df (pd.DataFrame): DataFrame containing the input variables to be normalised. This DataFrame will be modified in place.
+            feature_column_list (list): List of feature column names in the dataframe.
+        """
         for i in feature_column_list:
             mu=df[i].mean()
             ran=df[i].max() - df[i].min()
+            # Modifies the original DataFrame in place
             df[i] = (df[i] - mu) / ran
 
     mean_normalisation(feature_column_list)
