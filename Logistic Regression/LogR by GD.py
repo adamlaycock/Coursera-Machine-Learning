@@ -15,7 +15,8 @@ def gradient_descent(
 ):
 
     def y_prediction(x_array, w_array, b):
-        return expit(np.dot(x_array, w_array) + b)
+        prob = expit(np.dot(x_array, w_array) + b)
+        return np.where(prob >= 0.5, 1, 0)
     
     def mean_normalisation(feature_column_list):
         # Scales each feature in the feature list and replaces columns
@@ -53,26 +54,17 @@ def gradient_descent(
         
         # Updates the weight array and b for the next iteration.
         w_array, b = w_array_new, b_new
+        x_test = np.array([69,78984,2,31,1])
         iteration += 1
 
     return(w_array, b)
 
+
 lst = ['Age', 'Income', 'Education Level', 'Years of Experience', 'Has Mortgage']
 w = np.array([0, 0, 0, 0, 0])
 
-gradient_descent(ts_df, lst, 'Outcome', w, 0, 0.01, 1e-10, 10000)
+weights, bias = gradient_descent(ts_df, lst, 'Outcome', w, 0, 0.01, 1e-10, 10000)
 
-
-
-
-
-
-
-def y_prediction(x_array, w_array, b):
-    return expit(np.dot(x_array, w_array) + b)
-
-weights = np.array([28.45975, -351.1064, 8.1994, 61.1576, 10.2876])
-
-x_test =np.array([69,78984,2,31,1])
-
-y_prediction(x_test, weights, -4.415000000000211)
+def new_example(x_array, weights, bias):
+        prob = expit(np.dot(x_array, weights) + bias)
+        return np.where(prob >= 0.5, 1, 0)
