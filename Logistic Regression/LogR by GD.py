@@ -3,7 +3,7 @@ import numpy as np
 import math
 from scipy.special import expit
 
-# Reading in the training set and saving a copy for later normalisation
+# Reads in the training set and saving a copy for later normalisation
 ts_df = pd.read_csv('logistic_regression_training_set.csv')
 ts_df_to_norm = pd.read_csv('logistic_regression_training_set.csv')
 
